@@ -52,17 +52,17 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        /** Get the views **/
+        /* Get the views */
         mWaterCountDisplay = (TextView) findViewById(R.id.tv_water_count);
         mChargingCountDisplay = (TextView) findViewById(R.id.tv_charging_reminder_count);
         mChargingImageView = (ImageView) findViewById(R.id.iv_power_increment);
 
-        /** Set the original values in the UI **/
+        /* Set the original values in the UI */
         updateWaterCount();
         updateChargingReminderCount();
         ReminderUtilities.scheduleChargingReminder(this);
 
-        /** Setup the shared preference listener **/
+        /* Setup the shared preference listener */
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.registerOnSharedPreferenceChangeListener(this);
 
@@ -93,7 +93,10 @@ public class MainActivity extends AppCompatActivity implements
         else {
             IntentFilter intentFilter = new IntentFilter(Intent.ACTION_BATTERY_CHANGED);
             Intent batteryStatusIntent = registerReceiver(null, intentFilter);
-            int batteryStatus = batteryStatusIntent.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+            int batteryStatus = 0;
+            if (batteryStatusIntent != null) {
+                batteryStatus = batteryStatusIntent.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+            }
             boolean isCharging = batteryStatus == BatteryManager.BATTERY_STATUS_CHARGING || batteryStatus == BatteryManager.BATTERY_STATUS_FULL;
             showCharging(isCharging);
         }
@@ -113,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements
      */
     private void updateWaterCount() {
         int waterCount = PreferenceUtilities.getWaterCount(this);
-        mWaterCountDisplay.setText(waterCount+"");
+        mWaterCountDisplay.setText(String.valueOf(waterCount));
     }
 
     /**
@@ -143,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        /** Cleanup the shared preference listener **/
+        /* Cleanup the shared preference listener */
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         prefs.unregisterOnSharedPreferenceChangeListener(this);
     }
