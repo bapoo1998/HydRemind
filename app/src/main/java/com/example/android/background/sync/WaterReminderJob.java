@@ -20,8 +20,7 @@ public class WaterReminderJob extends Job {
 
     public static void scheduleJob() {
         new JobRequest.Builder(WaterReminderJob.TAG)
-                .setRequiresCharging(true)
-                .setExecutionWindow(TimeUnit.MINUTES.toMillis(15), TimeUnit.MINUTES.toMillis(15) + TimeUnit.MINUTES.toMillis(30))
+                .setExecutionWindow(TimeUnit.MINUTES.toMillis(1), TimeUnit.MINUTES.toMillis(15) + TimeUnit.MINUTES.toMillis(1))
                 .setUpdateCurrent(true)
                 .build()
                 .schedule();
