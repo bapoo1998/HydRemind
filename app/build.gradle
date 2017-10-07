@@ -19,6 +19,7 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
     compile 'com.firebase:firebase-jobdispatcher:0.8.2'
+    compile 'com.evernote:android-job:1.1.10'
+    compile 'com.android.support:appcompat-v7:26.0.0-alpha1'
 }
